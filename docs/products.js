@@ -11,12 +11,16 @@
 //  例: image: "images/p01.jpg"
 // ============================================================
 window.PRODUCTS = [
-  { id: "p01", name: "新刊イラスト本",         desc: "B5フルカラー32P",   price: 1000, image: "images/p01.svg" },
-  { id: "p02", name: "アクリルキーホルダー",   desc: "全5種ランダム",     price: 800,  image: "images/p02.svg" },
-  { id: "p03", name: "ステッカーセット",       desc: "3枚組",             price: 300,  image: "images/p03.svg" },
-  { id: "p04", name: "既刊まとめ本",           desc: "A5・過去作再録",    price: 1500, image: "images/p04.svg" },
-  { id: "p05", name: "ポストカードセット",     desc: "5枚組",             price: 500,  image: "images/p05.svg" },
-  { id: "p06", name: "缶バッジ",               desc: "57mm・全3種",       price: 400,  image: "images/p06.svg" },
-  { id: "p07", name: "クリアファイル",         desc: "A4・両面印刷",      price: 600,  image: "images/p07.svg" },
-  { id: "p08", name: "ミニ色紙",               desc: "サイン入り",        price: 2000, image: "images/p08.svg" },
+  { id: "p01", name: "振っておうえんペンライト", desc: "ペンライト", price: 15000, image: "images/penlight.jpg" },
+
+  { id: "ms01", name: "三峰スズ 光る！イラスト基板 完成品", desc: "組み立て済み", price: 1000, image: "images/suzuillustpcb_1.jpg" },
+  { id: "ms02", name: "三峰スズ 光る！イラスト基板 基板のみ", desc: "基板単体（要組み立て）", price: 500, image: "images/suzuillustpcb_2.jpg" },
+
+  { id: "sh01", name: "既刊 はつりちゃん ドキドキDIY♡", desc: "A5版のマンガ本", price: 500, image: "images/hatsuri_diy.jpg" },
+  { id: "sh02", name: "東雲はつり キーアクセサリー", desc: "キーアクセサリー形状のフルカラー印刷基板", price: 300, image: "images/hatsuri_keyaccessory.jpg" },
+  { id: "sh03", name: "東雲はつり アクスタ エアコンジオラマ", desc: "", price: 2000, image: "images/hatsuri_standing_1.jpg" },
+  { id: "sh04", name: "東雲はつり アクスタ ビキニ", desc: "", price: 2000, image: "images/hatsuri_standing_2.jpg" },
+  { id: "sh05", name: "東雲はつり アクスタ ぱんつ", desc: "", price: 2000, image: "images/hatsuri_standing_3.jpg" },
+
+  { id: "ms03", name: "アクスタライトスタンド 完成品", desc: "SparkStage", price: 4000, image: "images/sparkstage.jpg" }
 ];
