@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1976d2">
+  <title>コミケ簡易レジ (C108)</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ヘッダー: 担当者セレクタ -->
+  <header class="app-header">
+    <div class="app-title">コミケ簡易レジ <span class="app-sub">C108</span></div>
+    <div class="cashier-selector" id="cashierSelector">
+      <span class="cashier-label">担当</span>
+      <button class="cashier-btn" data-cashier="A">A</button>
+      <button class="cashier-btn" data-cashier="B">B</button>
+      <button class="cashier-btn" data-cashier="C">C</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- ============ レジ画面 ============ -->
+    <section class="screen" id="screen-register">
+      <div class="product-grid" id="productGrid"><!-- JSで生成 --></div>
+
+      <div class="cart-panel">
+        <div class="cart-header">
+          <span>カート</span>
+          <button class="btn-text danger" id="clearCartBtn">全消去</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+          <p class="cart-empty" id="cartEmpty">商品をタップして追加</p>
+        </div>
+        <div class="cart-footer">
+          <div class="cart-total">
+            <span>合計</span>
+            <span class="cart-total-amount" id="cartTotal">¥0</span>
+          </div>
+          <button class="btn-primary btn-big" id="checkoutBtn" disabled>会計へ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 履歴 / データ画面 ============ -->
+    <section class="screen hidden" id="screen-history">
+      <div class="stats-panel">
+        <div class="stat-card">
+          <div class="stat-value" id="statCount">0</div>
+          <div class="stat-label">会計件数</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statTotal">¥0</div>
+          <div class="stat-label">売上合計</div>
+        </div>
+      </div>
+      <div class="cashier-stats" id="cashierStats"><!-- JSで生成 --></div>
+
+      <div class="data-actions">
+        <button class="btn-primary" id="csvBtn">CSVダウンロード</button>
+        <button class="btn-outline danger" id="clearDataBtn">全データ削除</button>
+      </div>
+
+      <h2 class="section-title">会計一覧</h2>
+      <div class="history-list" id="historyList">
+        <p class="cart-empty">まだ会計がありません</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 下部タブ ============ -->
+  <nav class="tabbar">
+    <button class="tab-btn active" data-screen="register">
+      <span class="tab-icon">🧾</span><span>レジ</span>
+    </button>
+    <button class="tab-btn" data-screen="history">
+      <span class="tab-icon">📊</span><span>履歴</span>
+    </button>
+  </nav>
+
+  <!-- ============ 支払いモーダル ============ -->
+  <div class="modal-overlay hidden" id="paymentModal">
+    <div class="modal payment-modal">
+      <div class="payment-header">
+        <span>お会計</span>
+        <button class="btn-text" id="paymentBackBtn">戻る</button>
+      </div>
+      <div class="payment-summary">
+        <div class="pay-row"><span>合計</span><span class="pay-amount" id="payTotal">¥0</span></div>
+        <div class="pay-row"><span>お預かり</span><span class="pay-amount" id="payReceived">¥0</span></div>
+        <div class="pay-row change-row"><span>おつり</span><span class="pay-amount" id="payChange">¥0</span></div>
+      </div>
+
+      <div class="quick-buttons">
+        <button class="quick-btn" data-quick="exact">ちょうど</button>
+        <button class="quick-btn" data-quick="500">+500</button>
+        <button class="quick-btn" data-quick="1000">+1000</button>
+        <button class="quick-btn" data-quick="5000">+5000</button>
+      </div>
+
+      <div class="keypad">
+        <button class="key" data-key="1">1</button>
+        <button class="key" data-key="2">2</button>
+        <button class="key" data-key="3">3</button>
+        <button class="key" data-key="4">4</button>
+        <button class="key" data-key="5">5</button>
+        <button class="key" data-key="6">6</button>
+        <button class="key" data-key="7">7</button>
+        <button class="key" data-key="8">8</button>
+        <button class="key" data-key="9">9</button>
+        <button class="key" data-key="00">00</button>
+        <button class="key" data-key="0">0</button>
+        <button class="key key-del" data-key="del">⌫</button>
+      </div>
+
+      <button class="btn-primary btn-big" id="confirmBtn" disabled>確定</button>
+    </div>
+  </div>
+
+  <!-- ============ 商品詳細モーダル ============ -->
+  <div class="modal-overlay hidden" id="detailModal">
+    <div class="modal detail-modal">
+      <img class="detail-img" id="detailImg" alt="">
+      <div class="detail-name" id="detailName"></div>
+      <div class="detail-desc" id="detailDesc"></div>
+      <div class="detail-price" id="detailPrice"></div>
+      <div class="detail-actions">
+        <button class="btn-outline" id="detailCloseBtn">閉じる</button>
+        <button class="btn-primary" id="detailAddBtn">カートに追加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 確認ダイアログ ============ -->
+  <div class="modal-overlay hidden" id="confirmDialog">
+    <div class="modal confirm-dialog">
+      <p class="confirm-message" id="confirmMessage"></p>
+      <div class="confirm-actions">
+        <button class="btn-outline" id="confirmCancelBtn">キャンセル</button>
+        <button class="btn-primary danger-btn" id="confirmOkBtn">実行</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- トースト -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="products.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
