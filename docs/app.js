@@ -98,9 +98,8 @@
       // 画像 or フォールバックタイル
       var thumbHtml;
       if (p.image) {
-        thumbHtml = '<img class="product-thumb" src="' + escAttr(p.image) + '" alt="' +
-          escAttr(p.name) + '" onerror="this.outerHTML=\'' +
-          fallbackTile(p).replace(/'/g, "\\'") + '\'">';
+        thumbHtml = '<img class="product-thumb" src="' + escAttr(p.image) +
+          '" alt="' + escAttr(p.name) + '">';
       } else {
         thumbHtml = fallbackTile(p);
       }
@@ -114,6 +113,17 @@
           '<div class="product-name">' + escHtml(p.name) + '</div>' +
           '<div class="product-price">' + yen(p.price) + '</div>' +
         '</div>';
+
+      // 画像読み込み失敗時は頭文字タイルに差し替える。
+      // inline onerror だとタイルHTML内の引用符が属性を壊すため、JSで登録する。
+      if (p.image) {
+        var thumb = card.querySelector(".product-thumb");
+        if (thumb) {
+          thumb.onerror = (function (prod) {
+            return function () { this.outerHTML = fallbackTile(prod); };
+          })(p);
+        }
+      }
 
       productGrid.appendChild(card);
     });
