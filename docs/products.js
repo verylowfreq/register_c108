@@ -22,5 +22,5 @@ window.PRODUCTS = [
   { id: "sh04", name: "東雲はつり アクスタ ビキニ", desc: "", price: 2000, image: "images/hatsuri_standing_2.jpg" },
   { id: "sh05", name: "東雲はつり アクスタ ぱんつ", desc: "", price: 2000, image: "images/hatsuri_standing_3.jpg" },
 
-  { id: "ms03", name: "アクスタライトスタンド 完成品", desc: "SparkStage", price: 4000, image: "images/sparkstage.jpg" }
+  { id: "ms03", name: "アクスタライトスタンド 完成品", desc: "SparkStage", price: 4000, image: "images/SparkStage.jpg" }
 ];
